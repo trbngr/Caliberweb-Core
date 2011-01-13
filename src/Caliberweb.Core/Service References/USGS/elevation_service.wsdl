@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://gisdata.usgs.gov/XMLWebServices2/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://gisdata.usgs.gov/XMLWebServices2/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">The Elevation Query Web Service returns the elevation in feet or meters for a specific latitutde/longitude (WGS 1984) point from the USGS Seamless Elevation datasets hosted at &lt;a href="http://eros.usgs.gov/"&gt;EROS&lt;/a&gt;.  The elevation values returned default to the best-available data source available at the specified point.  Alternately, this service may return the value from a specified data source, or from all data sources.  If unable to find data at the requested point, this service returns an extremely large, negative value (-1.79769313486231E+308).  View the detailed &lt;a href="/XMLWebServices2/Elevation_Service_Methods.php"&gt;Elevation Service Methods&lt;/a&gt; description for more information on the methods and parameters used in this service.  Visit &lt;a href="http://gisdata.usgs.gov/"&gt;http://gisdata.usgs.gov/&lt;/a&gt; to view other EROS Web Services.</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://gisdata.usgs.gov/XMLWebServices2/">
+      <s:element name="getElevation">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="X_Value" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Y_Value" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Elevation_Units" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Source_Layer" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Elevation_Only" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getElevationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getElevationResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getAllElevations">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="X_Value" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Y_Value" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Elevation_Units" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getAllElevationsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getAllElevationsResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="getElevationSoapIn">
+    <wsdl:part name="parameters" element="tns:getElevation" />
+  </wsdl:message>
+  <wsdl:message name="getElevationSoapOut">
+    <wsdl:part name="parameters" element="tns:getElevationResponse" />
+  </wsdl:message>
+  <wsdl:message name="getAllElevationsSoapIn">
+    <wsdl:part name="parameters" element="tns:getAllElevations" />
+  </wsdl:message>
+  <wsdl:message name="getAllElevationsSoapOut">
+    <wsdl:part name="parameters" element="tns:getAllElevationsResponse" />
+  </wsdl:message>
+  <wsdl:message name="getElevationHttpGetIn">
+    <wsdl:part name="X_Value" type="s:string" />
+    <wsdl:part name="Y_Value" type="s:string" />
+    <wsdl:part name="Elevation_Units" type="s:string" />
+    <wsdl:part name="Source_Layer" type="s:string" />
+    <wsdl:part name="Elevation_Only" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getElevationHttpGetOut">
+    <wsdl:part name="Body" />
+  </wsdl:message>
+  <wsdl:message name="getAllElevationsHttpGetIn">
+    <wsdl:part name="X_Value" type="s:string" />
+    <wsdl:part name="Y_Value" type="s:string" />
+    <wsdl:part name="Elevation_Units" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getAllElevationsHttpGetOut">
+    <wsdl:part name="Body" />
+  </wsdl:message>
+  <wsdl:message name="getElevationHttpPostIn">
+    <wsdl:part name="X_Value" type="s:string" />
+    <wsdl:part name="Y_Value" type="s:string" />
+    <wsdl:part name="Elevation_Units" type="s:string" />
+    <wsdl:part name="Source_Layer" type="s:string" />
+    <wsdl:part name="Elevation_Only" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getElevationHttpPostOut">
+    <wsdl:part name="Body" />
+  </wsdl:message>
+  <wsdl:message name="getAllElevationsHttpPostIn">
+    <wsdl:part name="X_Value" type="s:string" />
+    <wsdl:part name="Y_Value" type="s:string" />
+    <wsdl:part name="Elevation_Units" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getAllElevationsHttpPostOut">
+    <wsdl:part name="Body" />
+  </wsdl:message>
+  <wsdl:portType name="Elevation_ServiceSoap">
+    <wsdl:operation name="getElevation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a value from a single elevation source for a given latitude/longitude point</wsdl:documentation>
+      <wsdl:input message="tns:getElevationSoapIn" />
+      <wsdl:output message="tns:getElevationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getAllElevations">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns values from all elevation sources for a given latitude/longitude point</wsdl:documentation>
+      <wsdl:input message="tns:getAllElevationsSoapIn" />
+      <wsdl:output message="tns:getAllElevationsSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="Elevation_ServiceHttpGet">
+    <wsdl:operation name="getElevation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a value from a single elevation source for a given latitude/longitude point</wsdl:documentation>
+      <wsdl:input message="tns:getElevationHttpGetIn" />
+      <wsdl:output message="tns:getElevationHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getAllElevations">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns values from all elevation sources for a given latitude/longitude point</wsdl:documentation>
+      <wsdl:input message="tns:getAllElevationsHttpGetIn" />
+      <wsdl:output message="tns:getAllElevationsHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="Elevation_ServiceHttpPost">
+    <wsdl:operation name="getElevation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a value from a single elevation source for a given latitude/longitude point</wsdl:documentation>
+      <wsdl:input message="tns:getElevationHttpPostIn" />
+      <wsdl:output message="tns:getElevationHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getAllElevations">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns values from all elevation sources for a given latitude/longitude point</wsdl:documentation>
+      <wsdl:input message="tns:getAllElevationsHttpPostIn" />
+      <wsdl:output message="tns:getAllElevationsHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Elevation_ServiceSoap" type="tns:Elevation_ServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getElevation">
+      <soap:operation soapAction="http://gisdata.usgs.gov/XMLWebServices2/getElevation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllElevations">
+      <soap:operation soapAction="http://gisdata.usgs.gov/XMLWebServices2/getAllElevations" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Elevation_ServiceSoap12" type="tns:Elevation_ServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getElevation">
+      <soap12:operation soapAction="http://gisdata.usgs.gov/XMLWebServices2/getElevation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllElevations">
+      <soap12:operation soapAction="http://gisdata.usgs.gov/XMLWebServices2/getAllElevations" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Elevation_ServiceHttpGet" type="tns:Elevation_ServiceHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="getElevation">
+      <http:operation location="/getElevation" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="Body" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllElevations">
+      <http:operation location="/getAllElevations" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="Body" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Elevation_ServiceHttpPost" type="tns:Elevation_ServiceHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="getElevation">
+      <http:operation location="/getElevation" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="Body" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllElevations">
+      <http:operation location="/getAllElevations" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="Body" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Elevation_Service">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">The Elevation Query Web Service returns the elevation in feet or meters for a specific latitutde/longitude (WGS 1984) point from the USGS Seamless Elevation datasets hosted at &lt;a href="http://eros.usgs.gov/"&gt;EROS&lt;/a&gt;.  The elevation values returned default to the best-available data source available at the specified point.  Alternately, this service may return the value from a specified data source, or from all data sources.  If unable to find data at the requested point, this service returns an extremely large, negative value (-1.79769313486231E+308).  View the detailed &lt;a href="/XMLWebServices2/Elevation_Service_Methods.php"&gt;Elevation Service Methods&lt;/a&gt; description for more information on the methods and parameters used in this service.  Visit &lt;a href="http://gisdata.usgs.gov/"&gt;http://gisdata.usgs.gov/&lt;/a&gt; to view other EROS Web Services.</wsdl:documentation>
+    <wsdl:port name="Elevation_ServiceSoap" binding="tns:Elevation_ServiceSoap">
+      <soap:address location="http://gisdata.usgs.net/xmlwebservices2/elevation_service.asmx" />
+    </wsdl:port>
+    <wsdl:port name="Elevation_ServiceSoap12" binding="tns:Elevation_ServiceSoap12">
+      <soap12:address location="http://gisdata.usgs.net/xmlwebservices2/elevation_service.asmx" />
+    </wsdl:port>
+    <wsdl:port name="Elevation_ServiceHttpGet" binding="tns:Elevation_ServiceHttpGet">
+      <http:address location="http://gisdata.usgs.net/xmlwebservices2/elevation_service.asmx" />
+    </wsdl:port>
+    <wsdl:port name="Elevation_ServiceHttpPost" binding="tns:Elevation_ServiceHttpPost">
+      <http:address location="http://gisdata.usgs.net/xmlwebservices2/elevation_service.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

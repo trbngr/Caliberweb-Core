@@ -1,0 +1,238 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4260E529-3681-4C17-99CF-D807D6132234}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Caliberweb.Core</RootNamespace>
+    <AssemblyName>Caliberweb.Core</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <CodeContractsAssemblyMode>0</CodeContractsAssemblyMode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CONTRACTS_FULL</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRunCodeAnalysis>True</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>False</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>False</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>False</CodeContractsArithmeticObligations>
+    <CodeContractsRedundantAssumptions>False</CodeContractsRedundantAssumptions>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>False</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly>
+    </CodeContractsCustomRewriterAssembly>
+    <CodeContractsCustomRewriterClass>
+    </CodeContractsCustomRewriterClass>
+    <CodeContractsLibPaths>
+    </CodeContractsLibPaths>
+    <CodeContractsExtraRewriteOptions>
+    </CodeContractsExtraRewriteOptions>
+    <CodeContractsExtraAnalysisOptions>
+    </CodeContractsExtraAnalysisOptions>
+    <CodeContractsBaseLineFile>
+    </CodeContractsBaseLineFile>
+    <CodeContractsCacheAnalysisResults>False</CodeContractsCacheAnalysisResults>
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>%28none%29</CodeContractsReferenceAssembly>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=736440c9b414ea16, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel.Web">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Benchmarking\ActionExtensions.cs" />
+    <Compile Include="Benchmarking\Benchmark.cs" />
+    <Compile Include="Benchmarking\BenchmarkRendering.cs" />
+    <Compile Include="Benchmarking\BenchmarkResult.cs" />
+    <Compile Include="Benchmarking\BenchmarkRunner.cs" />
+    <Compile Include="Benchmarking\Builders\BenchmarkBuilder.cs" />
+    <Compile Include="Benchmarking\Builders\BenchmarkSeriesBuilder.cs" />
+    <Compile Include="Benchmarking\Builders\IBenchmarkBuilder.cs" />
+    <Compile Include="Benchmarking\Builders\IBenchmarkSeriesBuilder.cs" />
+    <Compile Include="Benchmarking\IBenchmark.cs" />
+    <Compile Include="Benchmarking\IBenchmarkRenderer.cs" />
+    <Compile Include="Benchmarking\IBenchmarkResult.cs" />
+    <Compile Include="ByteCodec.cs" />
+    <Compile Include="Caching\CompositeLocalDataEventHandler.cs" />
+    <Compile Include="Caching\Storage\HttpCacheStorageStrategy.cs" />
+    <Compile Include="Caching\ILocalDataFactory.cs" />
+    <Compile Include="Caching\Storage\LegacySessionStorageStrategy.cs" />
+    <Compile Include="Caching\NullLocalDataEventHandler.cs" />
+    <Compile Include="Collections\ComparisonComparer.cs" />
+    <Compile Include="Collections\RandomAccessQueue.cs" />
+    <Compile Include="ConsoleColorer.cs" />
+    <Compile Include="ConsoleReader.cs" />
+    <Compile Include="DoubleLocker.cs" />
+    <Compile Include="Extensions\DirectoryInfoExtensions.cs" />
+    <Compile Include="Extensions\FileInfoExtensions.cs" />
+    <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="IByteCodec.cs" />
+    <Compile Include="Licensing\ILicense.cs" />
+    <Compile Include="Licensing\ILicenseDocument.cs" />
+    <Compile Include="Licensing\ILicenseCreator.cs" />
+    <Compile Include="Licensing\ILicensingService.cs" />
+    <Compile Include="Licensing\LicenseDocument.cs" />
+    <Compile Include="Licensing\LicenseGenerator.cs" />
+    <Compile Include="Licensing\LicenseBase.cs" />
+    <Compile Include="Licensing\LicenseType.cs" />
+    <Compile Include="Licensing\LicenseValidator.cs" />
+    <Compile Include="Licensing\LicensingService.cs" />
+    <Compile Include="NaiveMapReduce.cs" />
+    <Compile Include="Reflection\AllAssembliesFromPath.cs" />
+    <Compile Include="Reflection\AssemblyProvider.cs" />
+    <Compile Include="Reflection\IAssemblyProvider.cs" />
+    <Compile Include="IO\DirectoryFileBackup.cs" />
+    <Compile Include="IO\DirectoryFileBackupInfo.cs" />
+    <Compile Include="IO\FileBackupInfoBase.cs" />
+    <Compile Include="IO\IFileSearch.cs" />
+    <Compile Include="IO\InMemoryFileBackup.cs" />
+    <Compile Include="IO\IFileBackupInfo.cs" />
+    <Compile Include="IO\GenerationalFileBackupInfo.cs" />
+    <Compile Include="Net\CollectionDownloaderBase.cs" />
+    <Compile Include="Net\FileDownloadedEventArgs.cs" />
+    <Compile Include="Net\FileWebClient.cs" />
+    <Compile Include="Net\ICollectionDownloader.cs" />
+    <Compile Include="Net\Scraping\ILinkParser.cs" />
+    <Compile Include="Net\Scraping\IResourceScraper.cs" />
+    <Compile Include="Net\IWebClient.cs" />
+    <Compile Include="Net\Scraping\AllLinkParser.cs" />
+    <Compile Include="Net\Scraping\ZipFileLinkParser.cs" />
+    <Compile Include="Net\Scraping\ZipFileScraper.cs" />
+    <Compile Include="Net\SystemWebClient.cs" />
+    <Compile Include="Net\WebClientCollectionDownloader.cs" />
+    <Compile Include="Persistance\Identity\IIdentifier.cs" />
+    <Compile Include="Persistance\Identity\IIdentityMap.cs" />
+    <Compile Include="Persistance\Identity\IdentityMap.cs" />
+    <Compile Include="Caching\ILocalData.cs" />
+    <Compile Include="Caching\ILocalDataEventHandler.cs" />
+    <Compile Include="Caching\Storage\IStorageStrategy.cs" />
+    <Compile Include="Caching\LocalDataFactoryImpl.cs" />
+    <Compile Include="Caching\LocalDataImpl.cs" />
+    <Compile Include="Caching\Storage\SessionStorageStrategy.cs" />
+    <Compile Include="Caching\Storage\StorageStrategyBase.cs" />
+    <Compile Include="Caching\Storage\ThreadStorageStrategy.cs" />
+    <Compile Include="Configuration\AppSettingsAccessor.cs" />
+    <Compile Include="DisposableAction.cs" />
+    <Compile Include="Extensions\FuncExtensions.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
+    <Compile Include="IObjectCloner.cs" />
+    <Compile Include="IO\IFileBackup.cs" />
+    <Compile Include="IO\RollingFileBackup.cs" />
+    <Compile Include="ObjectCloner.cs" />
+    <Compile Include="Persistance\Identity\CombGuidIdentityGenerator.cs" />
+    <Compile Include="Persistance\DatabaseConnectionProvider.cs" />
+    <Compile Include="Persistance\DataReaderExtensions.cs" />
+    <Compile Include="Persistance\Identity\GuidIdentityGenerator.cs" />
+    <Compile Include="Persistance\IDatabaseConnectionProvider.cs" />
+    <Compile Include="Persistance\Identity\IIdentityGenerator.cs" />
+    <Compile Include="Persistance\ISqlHelper.cs" />
+    <Compile Include="Persistance\SqlServer\SqlServerHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rand.cs" />
+    <Compile Include="Rand.String.cs" />
+    <Compile Include="Range.cs" />
+    <Compile Include="Reflection\TypeLocationAssemblyProvider.cs" />
+    <Compile Include="Serialization\BinaryDataSerializer.cs" />
+    <Compile Include="Serialization\IDataSerializer.cs" />
+    <Compile Include="Serialization\JsonDataSerializer.cs" />
+    <Compile Include="Serialization\KnownTypes.cs" />
+    <Compile Include="Serialization\Serializers.cs" />
+    <Compile Include="Serialization\XmlDataSerializer.cs" />
+    <Compile Include="Service References\USGS\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Threading\CustomThreadPool.cs" />
+    <Compile Include="Threading\ThreadPoolWorkItem.cs" />
+    <Compile Include="Weather\Conditions.cs" />
+    <Compile Include="Weather\DensityAltitude.cs" />
+    <Compile Include="Weather\Elevation.cs" />
+    <Compile Include="Weather\Latitude.cs" />
+    <Compile Include="Weather\Location.cs" />
+    <Compile Include="Weather\Longitude.cs" />
+    <Compile Include="Weather\YahooRequest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Weather\app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\USGS\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\USGS\elevation_service.disco" />
+    <None Include="Service References\USGS\elevation_service.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\USGS\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\USGS\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\DataSources\System.Xml.XmlNode.datasource" />
+    <None Include="Service References\USGS\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
