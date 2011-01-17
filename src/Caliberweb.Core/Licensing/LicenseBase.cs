@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace Caliberweb.Core.Licensing
 {
-    [DataContract]
+    [DataContract(Name = "lic")]
     [Serializable]
     public class LicenseBase : ILicense
     {
@@ -17,16 +17,16 @@ namespace Caliberweb.Core.Licensing
         public LicenseBase(ILicense license) : this(license.Licensee, license.Type, license.Expires)
         {}
 
-        [DataMember]
+        [DataMember(Name = "name")]
         public string Licensee { get; private set; }
 
-        [DataMember]
+        [DataMember(Name = "type")]
         public LicenseType Type { get; private set; }
 
-        [DataMember]
+        [DataMember(Name = "expire")]
         public DateTime Expires { get; private set; }
 
-        [DataMember]
+        [DataMember(Name = "sig")]
         public byte[] Signature { get; set; }
     }
 }

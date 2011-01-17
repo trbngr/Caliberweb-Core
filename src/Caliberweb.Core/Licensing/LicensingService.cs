@@ -9,16 +9,14 @@ namespace Caliberweb.Core.Licensing
 {
     class LicensingService<T> : ILicensingService<T> where T: ILicense
     {
-        private readonly string publicKey;
+        private readonly IKeyPair keyPair;
         private readonly ILicenseCreator<T> creator;
         private readonly IDataSerializer serializer;
-        private readonly string privateKey;
         private readonly IByteCodec byteCodec;
 
-        internal LicensingService(string privateKey, string publicKey, ILicenseCreator<T> creator, IDataSerializer serializer)
+        internal LicensingService(IKeyPair keyPair, ILicenseCreator<T> creator, IDataSerializer serializer)
         {
-            this.privateKey = privateKey;
-            this.publicKey = publicKey;
+            this.keyPair = keyPair;
             this.creator = creator;
             this.serializer = serializer;
 
@@ -27,31 +25,31 @@ namespace Caliberweb.Core.Licensing
 
         public string GenerateLicense(string licensee, LicenseType type, DateTime expiration)
         {
-            var generator = new LicenseGenerator<T>(privateKey, creator);
+            var generator = new LicenseGenerator<T>(keyPair.Private, creator);
 
             T license = generator.Generate(licensee, type, expiration);
 
-            return byteCodec.Encode(serializer.Serialize(license));
+            var bytes = serializer.Serialize(license);
+
+            return byteCodec.Encode(bytes);
         }
 
-        public T ValidateLicense(string licensePath)
+        public T ValidateLicense(string license)
         {
             using (var provider = new RSACryptoServiceProvider())
             {
-                provider.FromXmlString(publicKey);
+                provider.FromXmlString(keyPair.Public);
 
-                var text = File.ReadAllText(licensePath);
+                var bytes = byteCodec.Decode(license);
 
-                var bytes = byteCodec.Decode(text);
+                var instance = serializer.Deserialize<T>(bytes.ToArray());
 
-                var license = serializer.Deserialize<T>(bytes.ToArray());
-
-                if (!LicenseGenerator<T>.VerifySignature(license, provider, creator))
+                if (!LicenseGenerator<T>.VerifySignature(instance, provider, creator))
                 {
                     throw new InvalidDataException("License is invalid");
                 }
 
-                return license;
+                return instance;
             }
 
         }
@@ -61,27 +59,30 @@ namespace Caliberweb.Core.Licensing
     {
         private const int DEFAULT_KEY_SIZE = 2048;
 
-        public static ILicensingService<T> Create<T>(string privateKey, string publicKey, ILicenseCreator<T> creator) where T : ILicense
+        public static ILicensingService<T> Create<T>(IKeyPair keyPair, ILicenseCreator<T> creator) where T : ILicense
         {
-            return Create(privateKey, publicKey, creator, Serializers.Json);
+            return Create(keyPair, creator, Serializers.Json);
         }
 
-        public static ILicensingService<T> Create<T>(string privateKey, string publicKey, ILicenseCreator<T> creator, IDataSerializer serializer) where T : ILicense
+        public static ILicensingService<T> Create<T>(IKeyPair keyPair, ILicenseCreator<T> creator, IDataSerializer serializer) where T : ILicense
         {
-            return new LicensingService<T>(privateKey, publicKey, creator, serializer);
+            return new LicensingService<T>(keyPair, creator, serializer);
         }
 
-        public static void GenerateKeypair(FileInfo publicKey, FileInfo privateKey)
+        public static IKeyPair GenerateKeypair()
         {
-            GenerateKeypair(publicKey, privateKey, DEFAULT_KEY_SIZE);
+            return GenerateKeypair(DEFAULT_KEY_SIZE);
         }
 
-        public static void GenerateKeypair(FileInfo publicKey, FileInfo privateKey, int keySize)
+        public static IKeyPair GenerateKeypair(int keySize)
         {
             using (var provider = new RSACryptoServiceProvider(keySize))
             {
-                File.WriteAllText(privateKey.FullName, provider.ToXmlString(true));
-                File.WriteAllText(publicKey.FullName, provider.ToXmlString(false));
+                return new KeyPair
+                {
+                    Public = provider.ToXmlString(false),
+                    Private = provider.ToXmlString(true)
+                };
             }
         }
     }

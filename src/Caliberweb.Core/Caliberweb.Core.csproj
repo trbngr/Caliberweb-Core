@@ -117,10 +117,12 @@
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="IByteCodec.cs" />
+    <Compile Include="Licensing\IKeyPair.cs" />
     <Compile Include="Licensing\ILicense.cs" />
     <Compile Include="Licensing\ILicenseDocument.cs" />
     <Compile Include="Licensing\ILicenseCreator.cs" />
     <Compile Include="Licensing\ILicensingService.cs" />
+    <Compile Include="Licensing\KeyPair.cs" />
     <Compile Include="Licensing\LicenseDocument.cs" />
     <Compile Include="Licensing\LicenseGenerator.cs" />
     <Compile Include="Licensing\LicenseBase.cs" />

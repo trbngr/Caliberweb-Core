@@ -38,11 +38,6 @@ namespace Caliberweb.Core.Extensions
                 if (!map.TryGetValue(a, out result))
                 {
                     map.Add(a, result = function(a));
-                    Console.Out.WriteLine("NOT FOUND: {0}", function);
-                }
-                else
-                {
-                    Console.Out.WriteLine("FOUND    : {0}", function);
                 }
 
                 return result;

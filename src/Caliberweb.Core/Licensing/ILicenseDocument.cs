@@ -1,5 +1,3 @@
-using System.Xml;
-
 namespace Caliberweb.Core.Licensing
 {
     public interface ILicenseDocument

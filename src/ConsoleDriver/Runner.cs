@@ -17,6 +17,7 @@ namespace ConsoleDriver
     {
         private static readonly ILog log = LogManager.GetLogger(typeof (Runner));
         private readonly ConsoleReader reader;
+        private IDataSerializer serializer;
 
         public Runner(ConsoleReader reader)
         {
@@ -27,19 +28,18 @@ namespace ConsoleDriver
 
         public void Run()
         {
-            const string LICENSE_FILE = "license.to.run";
-
-            FileInfo privateInfo = "keys/private.xml".ToLocalFileInfo(true);
-            FileInfo publicInfo = "keys/public.xml".ToLocalFileInfo();
-
-            //            LicensingService.GenerateKeypair(publicInfo, privateInfo);
-
-            string privateKey = privateInfo.ReadAllText();
-            string publicKey = publicInfo.ReadAllText();
+            const string LICENSE_FILE = "license.txt";
+            serializer = Serializers.Json;
+            
+            var keyPairFile = "keys.txt".ToLocalFileInfo();
+            
+//            var keyPair = LicensingService.GenerateKeypair();//            
+//            keyPair.Save(keyPairFile, serializer);
+            var keyPair = KeyPair.Load(keyPairFile, serializer);
 
             var creator = new CaliberwebLicenseCreator();
 
-            var service = LicensingService.Create(privateKey, publicKey, creator, Serializers.Json);
+            var service = LicensingService.Create(keyPair, creator, Serializers.Json);
 
             bool running = true;
             while (running)
@@ -69,7 +69,7 @@ namespace ConsoleDriver
         {
             if (reader.Confirm("Validate License?"))
             {
-                var license = service.ValidateLicense(licenseFile);
+                var license = service.ValidateLicense(File.ReadAllText(licenseFile));
 
                 log.Info("License:");
                 log.Info("-----------------------------");
