@@ -61,6 +61,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=736440c9b414ea16, processorArchitecture=MSIL" />
+    <Reference Include="MiscUtil, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d3c42c4bfacf7596, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\MiscUtil\MiscUtil.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
@@ -105,8 +109,6 @@
     <Compile Include="Caching\ILocalDataFactory.cs" />
     <Compile Include="Caching\Storage\LegacySessionStorageStrategy.cs" />
     <Compile Include="Caching\NullLocalDataEventHandler.cs" />
-    <Compile Include="Collections\ComparisonComparer.cs" />
-    <Compile Include="Collections\RandomAccessQueue.cs" />
     <Compile Include="ConsoleColorer.cs" />
     <Compile Include="ConsoleReader.cs" />
     <Compile Include="DoubleLocker.cs" />
@@ -191,8 +193,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="Threading\CustomThreadPool.cs" />
-    <Compile Include="Threading\ThreadPoolWorkItem.cs" />
     <Compile Include="Weather\Conditions.cs" />
     <Compile Include="Weather\DensityAltitude.cs" />
     <Compile Include="Weather\Elevation.cs" />

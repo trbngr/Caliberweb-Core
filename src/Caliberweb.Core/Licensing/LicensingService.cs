@@ -43,6 +43,13 @@ namespace Caliberweb.Core.Licensing
 
     public static class LicensingService
     {
+        private const int DEFAULT_KEY_SIZE = 2048;
+
+        public static ILicensingService<T> Create<T>(string privateKey, string publicKey, ILicenseCreator<T> creator) where T : ILicense
+        {
+            return Create(privateKey, publicKey, creator, Serializers.Json);
+        }
+
         public static ILicensingService<T> Create<T>(string privateKey, string publicKey, ILicenseCreator<T> creator, IDataSerializer serializer) where T : ILicense
         {
             return new LicensingService<T>(privateKey, publicKey, creator, serializer);
@@ -50,7 +57,12 @@ namespace Caliberweb.Core.Licensing
 
         public static void GenerateKeypair(FileInfo publicKey, FileInfo privateKey)
         {
-            using (var provider = new RSACryptoServiceProvider(2048))
+            GenerateKeypair(publicKey, privateKey, DEFAULT_KEY_SIZE);
+        }
+
+        public static void GenerateKeypair(FileInfo publicKey, FileInfo privateKey, int keySize)
+        {
+            using (var provider = new RSACryptoServiceProvider(keySize))
             {
                 File.WriteAllText(privateKey.FullName, provider.ToXmlString(true));
                 File.WriteAllText(publicKey.FullName, provider.ToXmlString(false));
