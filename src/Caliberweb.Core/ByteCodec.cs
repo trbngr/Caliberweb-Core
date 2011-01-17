@@ -55,9 +55,7 @@ namespace Caliberweb.Core
                     stream.Flush();
                     stream.Position = 0;
 
-                    var text = reader.ReadToEnd();
-
-                    return text;
+                    return reader.ReadToEnd();
                 }
             }
 

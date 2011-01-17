@@ -127,7 +127,6 @@
     <Compile Include="Licensing\LicenseType.cs" />
     <Compile Include="Licensing\LicenseValidator.cs" />
     <Compile Include="Licensing\LicensingService.cs" />
-    <Compile Include="NaiveMapReduce.cs" />
     <Compile Include="Reflection\AllAssembliesFromPath.cs" />
     <Compile Include="Reflection\AssemblyProvider.cs" />
     <Compile Include="Reflection\IAssemblyProvider.cs" />
@@ -193,6 +192,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Specification\ISpec.cs" />
+    <Compile Include="Specification\Spec.cs" />
     <Compile Include="Weather\Conditions.cs" />
     <Compile Include="Weather\DensityAltitude.cs" />
     <Compile Include="Weather\Elevation.cs" />
