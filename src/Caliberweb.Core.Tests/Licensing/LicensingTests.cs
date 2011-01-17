@@ -21,8 +21,10 @@ namespace Caliberweb.Core.Licensing
         {
             serializer = Serializers.Xml;
 
-            //Generate keypair - only do this once per application and store the keys somewhere secure.
+            //Generate keypair
             var keyPair = LicensingService.GenerateKeypair();
+
+            //note:only generate the key pair once per application and store the keys somewhere secure.
 //            keyPair.Save(fileinfo, serializer);
 //            keyPair = KeyPair.Load(fileinfo, serializer)
 
@@ -33,7 +35,7 @@ namespace Caliberweb.Core.Licensing
             creator = new MyTestLicenseCreator(number, name);
 
             //create the licensing service
-            service = LicensingService.Create(keyPair, creator, serializer);
+            service = LicensingService.Create(keyPair, serializer, creator);
 
             //generate license
             var licensee = Rand.String.NextText(1, 3);

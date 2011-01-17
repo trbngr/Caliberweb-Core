@@ -8,10 +8,10 @@ namespace Caliberweb.Core.Licensing
 {
     class LicenseGenerator<T> where T : ILicense
     {
-        private readonly string privateKey;
+        private readonly byte[] privateKey;
         private readonly ILicenseCreator<T> decorator;
 
-        public LicenseGenerator(string privateKey, ILicenseCreator<T> decorator)
+        public LicenseGenerator(byte[] privateKey, ILicenseCreator<T> decorator)
         {
             this.privateKey = privateKey;
             this.decorator = decorator;
@@ -22,7 +22,7 @@ namespace Caliberweb.Core.Licensing
             SignedXml signature;
             using (var provider = new RSACryptoServiceProvider())
             {
-                provider.FromXmlString(privateKey);
+                provider.ImportCspBlob(privateKey);
 
                 XmlDocument doc = GenerateXmlDocument(license, decorator);
 

@@ -13,7 +13,7 @@ using log4net;
 
 namespace ConsoleDriver
 {
-    internal class Runner : IRunner
+    internal class Runner : IRunner, ILicenseCreator<CaliberwebLicense>
     {
         private static readonly ILog log = LogManager.GetLogger(typeof (Runner));
         private readonly ConsoleReader reader;
@@ -24,22 +24,37 @@ namespace ConsoleDriver
             this.reader = reader;
         }
 
+        #region ILicenseCreator<CaliberwebLicense> Members
+
+        public CaliberwebLicense CreateLicense(ILicense license)
+        {
+            return new CaliberwebLicense(license)
+            {
+                HomeTrack = reader.GetString("home track")
+            };
+        }
+
+        public void AlterDocument(ILicenseDocument document, CaliberwebLicense license)
+        {
+            document.AppendData("track", license.HomeTrack);
+        }
+
+        #endregion
+
         #region IRunner Members
 
         public void Run()
         {
             const string LICENSE_FILE = "license.txt";
-            serializer = Serializers.Json;
-            
-            var keyPairFile = "keys.txt".ToLocalFileInfo();
-            
-//            var keyPair = LicensingService.GenerateKeypair();//            
-//            keyPair.Save(keyPairFile, serializer);
-            var keyPair = KeyPair.Load(keyPairFile, serializer);
+            serializer = Serializers.Xml;
 
-            var creator = new CaliberwebLicenseCreator();
+            FileInfo keyPairFile = "keys.txt".ToLocalFileInfo();
 
-            var service = LicensingService.Create(keyPair, creator, Serializers.Json);
+            //            var keyPair = LicensingService.GenerateKeypair();        
+            //            keyPair.Save(keyPairFile, serializer);
+            IKeyPair keyPair = KeyPair.Load(keyPairFile, serializer);
+
+            ILicensingService<CaliberwebLicense> service = LicensingService.Create(keyPair, serializer, this);
 
             bool running = true;
             while (running)
@@ -69,7 +84,7 @@ namespace ConsoleDriver
         {
             if (reader.Confirm("Validate License?"))
             {
-                var license = service.ValidateLicense(File.ReadAllText(licenseFile));
+                CaliberwebLicense license = service.ValidateLicense(File.ReadAllText(licenseFile));
 
                 log.Info("License:");
                 log.Info("-----------------------------");
@@ -79,26 +94,6 @@ namespace ConsoleDriver
                 log.InfoFormat("Expires: {0}", license.Expires);
             }
         }
-    }
-
-    public class CaliberwebLicenseCreator : ILicenseCreator<CaliberwebLicense>
-    {
-        #region ILicensingDecorator<CaliberwebLicense> Members
-
-        public CaliberwebLicense CreateLicense(ILicense license)
-        {
-            return new CaliberwebLicense(license)
-            {
-                HomeTrack = "Speedworld"
-            };
-        }
-
-        public void AlterDocument(ILicenseDocument document, CaliberwebLicense license)
-        {
-            document.AppendData("track", license.HomeTrack);
-        }
-
-        #endregion
     }
 
     [DataContract]

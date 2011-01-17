@@ -6,8 +6,9 @@ namespace Caliberweb.Core.Licensing
 {
     public interface IKeyPair
     {
-        string Public { get; }
-        string Private { get; }
+        byte[] Public { get; }
+        byte[] Private { get; }
+        void Save(FileInfo file);
         void Save(FileInfo file, IDataSerializer serializer);
     }
 }

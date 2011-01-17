@@ -10,11 +10,21 @@ namespace Caliberweb.Core.Licensing
     [Serializable]
     public class KeyPair : IKeyPair
     {
+        private static readonly IDataSerializer defaultSerializer = Serializers.Json;
+
+        internal KeyPair()
+        {}
+
         [DataMember]
-        public string Public { get; internal set; }
+        public byte[] Public { get; internal set; }
         
         [DataMember]
-        public string Private { get; internal set; }
+        public byte[] Private { get; internal set; }
+        
+        public static IKeyPair Load(FileInfo file)
+        {
+            return Load(file, defaultSerializer);
+        }
 
         public static IKeyPair Load(FileInfo file, IDataSerializer serializer)
         {
@@ -23,6 +33,11 @@ namespace Caliberweb.Core.Licensing
                 throw new FileNotFoundException("not found", file.FullName);
 
             return serializer.Deserialize<KeyPair>(File.ReadAllBytes(file.FullName));
+        }
+
+        public void Save(FileInfo file)
+        {
+            Save(file, defaultSerializer);
         }
 
         public void Save(FileInfo file, IDataSerializer serializer)

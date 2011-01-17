@@ -20,7 +20,7 @@ namespace Caliberweb.Core.Licensing
             this.creator = creator;
             this.serializer = serializer;
 
-            byteCodec = ByteCodec.Null;
+            byteCodec = ByteCodec.Hex;
         }
 
         public string GenerateLicense(string licensee, LicenseType type, DateTime expiration)
@@ -38,7 +38,7 @@ namespace Caliberweb.Core.Licensing
         {
             using (var provider = new RSACryptoServiceProvider())
             {
-                provider.FromXmlString(keyPair.Public);
+                provider.ImportCspBlob(keyPair.Public);
 
                 var bytes = byteCodec.Decode(license);
 
@@ -57,14 +57,15 @@ namespace Caliberweb.Core.Licensing
 
     public static class LicensingService
     {
+        private static readonly IDataSerializer defautltSerializer = Serializers.Json;
         private const int DEFAULT_KEY_SIZE = 2048;
 
         public static ILicensingService<T> Create<T>(IKeyPair keyPair, ILicenseCreator<T> creator) where T : ILicense
         {
-            return Create(keyPair, creator, Serializers.Json);
+            return Create(keyPair, defautltSerializer, creator);
         }
 
-        public static ILicensingService<T> Create<T>(IKeyPair keyPair, ILicenseCreator<T> creator, IDataSerializer serializer) where T : ILicense
+        public static ILicensingService<T> Create<T>(IKeyPair keyPair, IDataSerializer serializer, ILicenseCreator<T> creator) where T : ILicense
         {
             return new LicensingService<T>(keyPair, creator, serializer);
         }
@@ -80,10 +81,11 @@ namespace Caliberweb.Core.Licensing
             {
                 return new KeyPair
                 {
-                    Public = provider.ToXmlString(false),
-                    Private = provider.ToXmlString(true)
+                    Public = provider.ExportCspBlob(false),
+                    Private = provider.ExportCspBlob(true)
                 };
             }
         }
+
     }
 }
