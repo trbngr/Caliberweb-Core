@@ -125,7 +125,6 @@
     <Compile Include="Licensing\LicenseGenerator.cs" />
     <Compile Include="Licensing\LicenseBase.cs" />
     <Compile Include="Licensing\LicenseType.cs" />
-    <Compile Include="Licensing\LicenseValidator.cs" />
     <Compile Include="Licensing\LicensingService.cs" />
     <Compile Include="Reflection\AllAssembliesFromPath.cs" />
     <Compile Include="Reflection\AssemblyProvider.cs" />

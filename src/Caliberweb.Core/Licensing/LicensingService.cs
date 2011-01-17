@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 
 using Caliberweb.Core.Serialization;
@@ -35,9 +36,24 @@ namespace Caliberweb.Core.Licensing
 
         public T ValidateLicense(string licensePath)
         {
-            var validator = new LicenseValidator<T>(publicKey, serializer, byteCodec);
+            using (var provider = new RSACryptoServiceProvider())
+            {
+                provider.FromXmlString(publicKey);
 
-            return validator.ValidateLicense(licensePath, creator);
+                var text = File.ReadAllText(licensePath);
+
+                var bytes = byteCodec.Decode(text);
+
+                var license = serializer.Deserialize<T>(bytes.ToArray());
+
+                if (!LicenseGenerator<T>.VerifySignature(license, provider, creator))
+                {
+                    throw new InvalidDataException("License is invalid");
+                }
+
+                return license;
+            }
+
         }
     }
 
