@@ -27,11 +27,13 @@ namespace Caliberweb.Core.Licensing
 //            keyPair = KeyPair.Load(fileinfo, serializer)
 
             //customised license
-            creator = new MyTestLicenseCreator(Rand.Next(), Rand.String.NextText(1, 3));
+            var number = Rand.Next();
+            var name = Rand.String.NextText(1, 3);
+
+            creator = new MyTestLicenseCreator(number, name);
 
             //create the licensing service
-            service = LicensingService.Create(keyPair,creator,
-                                              serializer);
+            service = LicensingService.Create(keyPair, creator, serializer);
 
             //generate license
             var licensee = Rand.String.NextText(1, 3);
