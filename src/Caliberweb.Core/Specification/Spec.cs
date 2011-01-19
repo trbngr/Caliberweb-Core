@@ -9,6 +9,11 @@ namespace Caliberweb.Core.Specification
             return new DynamicSpec<T>(spec);
         }
 
+        public static ISpec<T> Empty<T>()
+        {
+            return new DynamicSpec<T>(s => true);
+        }
+
         #region Nested type: DynamicSpec
 
         private class DynamicSpec<T> : Spec<T>

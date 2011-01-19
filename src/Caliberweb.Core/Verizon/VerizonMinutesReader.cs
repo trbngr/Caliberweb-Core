@@ -33,24 +33,10 @@ namespace Caliberweb.Core.Verizon
 
             readers = new List<CsvReader>();
 
-            foreach (var file in files)
+            foreach (FileInfo file in files)
             {
                 readers.Add(new CsvReader(file, description));
             }
-        }
-
-        public IEnumerable<VerizonRecord> GetFriendsAndFamilyRecommendations(ISpec<VerizonRecord> spec)
-        {
-            return Records
-                .Where(spec.IsSatisfied)
-                .GroupBy(r => r.Number)
-                .Select(g => new VerizonRecord
-                {
-                    Date = g.OrderBy(r => r.Date).Last().Date,
-                    Description = g.First().Description,
-                    Minutes = g.Sum(r => r.Minutes),
-                    Number = g.Key
-                }).Take(10).OrderByDescending(r => r.Minutes);
         }
 
         public IEnumerable<VerizonRecord> Records
@@ -59,7 +45,7 @@ namespace Caliberweb.Core.Verizon
             {
                 var vr = new List<VerizonRecord>();
 
-                var allRecords = readers.Select(reader => reader.GetRecords());
+                IEnumerable<IEnumerable<ICsvRecord>> allRecords = readers.Select(reader => reader.GetRecords());
 
                 foreach (var records in allRecords)
                 {
@@ -74,6 +60,35 @@ namespace Caliberweb.Core.Verizon
 
                 return vr;
             }
+        }
+
+        public IEnumerable<VerizonRecord> GetFriendsAndFamilyRecommendations()
+        {
+            return GetFriendsAndFamilyRecommendations(Spec.Empty<VerizonRecord>());
+        }
+
+        public IEnumerable<VerizonRecord> GetFriendsAndFamilyRecommendations(ISpec<VerizonRecord> spec)
+        {
+            return GroupByNumber(spec).Take(10);
+        }
+
+        public IEnumerable<VerizonRecord> GroupByNumber()
+        {
+            return GroupByNumber(Spec.Empty<VerizonRecord>());
+        }
+
+        public IEnumerable<VerizonRecord> GroupByNumber(ISpec<VerizonRecord> spec)
+        {
+            return Records
+                .Where(spec.IsSatisfied)
+                .GroupBy(r => r.Number)
+                .Select(g => new VerizonRecord
+                {
+                    Date = g.OrderBy(r => r.Date).Last().Date,
+                    Description = g.First().Description,
+                    Minutes = g.Sum(r => r.Minutes),
+                    Number = g.Key
+                }).OrderByDescending(r => r.Minutes);
         }
     }
 }
