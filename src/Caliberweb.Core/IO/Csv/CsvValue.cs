@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace Caliberweb.Core.IO
+namespace Caliberweb.Core.IO.Csv
 {
     [DebuggerDisplay("{ColumnName}: {Value}")]
     abstract class CsvValue<T> : ICsvValue<T>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-using Caliberweb.Core.IO;
+using Caliberweb.Core.IO.Csv;
 using Caliberweb.Core.Specification;
 
 namespace Caliberweb.Core.Verizon
@@ -59,10 +59,10 @@ namespace Caliberweb.Core.Verizon
             {
                 var vr = new List<VerizonRecord>();
 
-                foreach (var reader in readers)
-                {
-                    var records = reader.GetRecords();
+                var allRecords = readers.Select(reader => reader.GetRecords());
 
+                foreach (var records in allRecords)
+                {
                     vr.AddRange(records.Select(r => new VerizonRecord
                     {
                         Date = r.Values.GetColumnValue(dateColumn),

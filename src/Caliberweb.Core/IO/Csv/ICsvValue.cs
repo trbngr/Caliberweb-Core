@@ -1,4 +1,4 @@
-﻿namespace Caliberweb.Core.IO
+﻿namespace Caliberweb.Core.IO.Csv
 {
     public interface ICsvValue<T> : ICsvValue
     {

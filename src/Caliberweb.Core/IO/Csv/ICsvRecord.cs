@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Caliberweb.Core.IO
+namespace Caliberweb.Core.IO.Csv
 {
     public interface ICsvRecord : IComparable<ICsvRecord>
     {
