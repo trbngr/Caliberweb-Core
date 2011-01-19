@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 
 using Caliberweb.Core;
@@ -43,6 +44,11 @@ namespace ConsoleDriver
             {
                 log.Info(record);
             }
+
+//            foreach (var record in minutes.GroupByNumber())
+//            {
+//                log.Info(record);
+//            }
         }
 
         #endregion

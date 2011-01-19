@@ -15,7 +15,7 @@ namespace Caliberweb.Core.IO.Csv
             this.collection = collection;
         }
 
-        public T GetColumnValue<T>(IColumn<T> column)
+        public T GetValue<T>(IColumn<T> column)
         {
             var defaultValue = default(T);
 

@@ -11,6 +11,7 @@ namespace Caliberweb.Core.Verizon
     public class VerizonMinutesReader
     {
         private readonly IColumn<DateTime> dateColumn;
+        private readonly IColumn<DateTime> timeColumn;
         private readonly IColumn<string> descriptionColumn;
         private readonly IColumn<int> minutesColumn;
         private readonly IColumn<string> numberColumn;
@@ -21,19 +22,21 @@ namespace Caliberweb.Core.Verizon
             minutesColumn = Columns.Integer("Minutes");
             numberColumn = Columns.String("Number");
             dateColumn = Columns.Date("Date");
+            timeColumn = Columns.Date("Time");
             descriptionColumn = Columns.String("Desc");
 
             var description = new CsvDescription(new IColumn[]
             {
                 minutesColumn,
                 numberColumn,
+                timeColumn,
                 dateColumn,
                 descriptionColumn
             });
 
             readers = new List<CsvReader>();
 
-            foreach (FileInfo file in files)
+            foreach (var file in files)
             {
                 readers.Add(new CsvReader(file, description));
             }
@@ -43,22 +46,21 @@ namespace Caliberweb.Core.Verizon
         {
             get
             {
-                var vr = new List<VerizonRecord>();
+                var allRecords = readers.SelectMany(r => r.GetRecords());
 
-                IEnumerable<IEnumerable<ICsvRecord>> allRecords = readers.Select(reader => reader.GetRecords());
-
-                foreach (var records in allRecords)
+                return allRecords.Select(r =>
                 {
-                    vr.AddRange(records.Select(r => new VerizonRecord
-                    {
-                        Date = r.Values.GetColumnValue(dateColumn),
-                        Description = r.Values.GetColumnValue(descriptionColumn),
-                        Minutes = r.Values.GetColumnValue(minutesColumn),
-                        Number = r.Values.GetColumnValue(numberColumn)
-                    }));
-                }
+                    var date = r.Values.GetValue(dateColumn);
+                    var time = r.Values.GetValue(timeColumn).TimeOfDay;
 
-                return vr;
+                    return new VerizonRecord
+                    {
+                        Date = date.Add(time),
+                        Description = r.Values.GetValue(descriptionColumn),
+                        Minutes = r.Values.GetValue(minutesColumn),
+                        Number = r.Values.GetValue(numberColumn)
+                    };
+                });
             }
         }
 
@@ -69,7 +71,24 @@ namespace Caliberweb.Core.Verizon
 
         public IEnumerable<VerizonRecord> GetFriendsAndFamilyRecommendations(ISpec<VerizonRecord> spec)
         {
-            return GroupByNumber(spec).Take(10);
+            return Records
+                .GroupBy(r => r.Number)
+                .Select(g => CreateRecordFromGrouping(g))
+                .Where(spec.IsSatisfied)
+                .OrderByDescending(r => r.Minutes)
+                .Take(10);
+
+        }
+
+        private static VerizonRecord CreateRecordFromGrouping(IGrouping<string, VerizonRecord> g)
+        {
+            return new VerizonRecord
+            {
+                Date = g.OrderBy(r => r.Date).Last().Date,
+                Description = g.First().Description,
+                Minutes = g.Sum(r => r.Minutes),
+                Number = g.Key
+            };
         }
 
         public IEnumerable<VerizonRecord> GroupByNumber()
@@ -82,13 +101,8 @@ namespace Caliberweb.Core.Verizon
             return Records
                 .Where(spec.IsSatisfied)
                 .GroupBy(r => r.Number)
-                .Select(g => new VerizonRecord
-                {
-                    Date = g.OrderBy(r => r.Date).Last().Date,
-                    Description = g.First().Description,
-                    Minutes = g.Sum(r => r.Minutes),
-                    Number = g.Key
-                }).OrderByDescending(r => r.Minutes);
+                .Select(g => CreateRecordFromGrouping(g))
+                .OrderByDescending(r => r.Minutes);
         }
     }
 }

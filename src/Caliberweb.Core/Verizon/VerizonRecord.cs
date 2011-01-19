@@ -13,7 +13,7 @@ namespace Caliberweb.Core.Verizon
 
         public override string ToString()
         {
-            return string.Format("{0:MM/dd/yyyy} {1:00} {2,-10} [{3}]", Date, Minutes, Number, Description);
+            return string.Format("{0:MM/dd/yyyy hh:mm tt} {1:00} {2,-10} [{3}]", Date, Minutes, Number, Description);
         }
 
         public static ISpec<VerizonRecord> NumberIs(string number)
