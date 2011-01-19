@@ -50,6 +50,11 @@ namespace Caliberweb.Core.Specification
             return new NotSpec<T>(spec);
         }
 
+        public ISpec<T> Negate()
+        {
+            return new NotSpec<T>(this);
+        }
+
         #endregion
 
         #region Nested type: AndSpec

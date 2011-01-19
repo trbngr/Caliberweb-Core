@@ -117,6 +117,14 @@
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="IByteCodec.cs" />
+    <Compile Include="IO\CsvReader.cs" />
+    <Compile Include="IO\CsvRecord.cs" />
+    <Compile Include="IO\CsvValue.cs" />
+    <Compile Include="IO\DateValue.cs" />
+    <Compile Include="IO\ICsvRecord.cs" />
+    <Compile Include="IO\ICsvValue.cs" />
+    <Compile Include="IO\IntValue.cs" />
+    <Compile Include="IO\StringValue.cs" />
     <Compile Include="Licensing\IKeyPair.cs" />
     <Compile Include="Licensing\ILicense.cs" />
     <Compile Include="Licensing\ILicenseDocument.cs" />
@@ -195,6 +203,8 @@
     </Compile>
     <Compile Include="Specification\ISpec.cs" />
     <Compile Include="Specification\Spec.cs" />
+    <Compile Include="Verizon\VerizonMinutesReader.cs" />
+    <Compile Include="Verizon\VerizonRecord.cs" />
     <Compile Include="Weather\Conditions.cs" />
     <Compile Include="Weather\DensityAltitude.cs" />
     <Compile Include="Weather\Elevation.cs" />

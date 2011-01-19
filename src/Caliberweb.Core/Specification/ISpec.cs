@@ -7,5 +7,7 @@ namespace Caliberweb.Core.Specification
         ISpec<T> And(ISpec<T> spec);
         ISpec<T> Or(ISpec<T> spec);
         ISpec<T> Not(ISpec<T> spec);
+
+        ISpec<T> Negate();
     }
 }
