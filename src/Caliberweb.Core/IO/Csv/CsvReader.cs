@@ -5,26 +5,27 @@ using System.Linq;
 
 using Caliberweb.Core.Extensions;
 
+using OpenFileSystem.IO;
+
 namespace Caliberweb.Core.IO.Csv
 {
-    public class CsvReader : IComparable<CsvReader>
+    public class CsvReader : IEquatable<CsvReader>
     {
-        private readonly FileInfo file;
+        private readonly IFile file;
         private readonly CsvDescription description;
-        private static readonly Func<FileInfo, string[]> lineReader;
+        private static readonly Func<IFile, string[]> lineReader;
 
         static CsvReader()
         {
             //memoize this function to minimize IO
-            lineReader = new Func<FileInfo, string[]>(f => File.ReadAllLines(f.FullName)).Memoize();
+            lineReader = new Func<IFile, string[]>(f => f.ReadAllLines()).Memoize();
         }
 
-        public CsvReader(FileInfo file, CsvDescription description)
+        public CsvReader(IFile file, CsvDescription description)
         {
-            file.Refresh();
             if (!file.Exists)
             {
-                throw new FileNotFoundException("not found", file.FullName);
+                throw new FileNotFoundException("not found", file.Path);
             }
 
             this.file = file;
@@ -62,9 +63,9 @@ namespace Caliberweb.Core.IO.Csv
             return description.FindColumns(columns).ToArray();
         }
 
-        public int CompareTo(CsvReader other)
+        public bool Equals(CsvReader other)
         {
-            return file.FullName.CompareTo(other.file.FullName);
+            return file.Path.Equals(other.file.Path);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Caliberweb.Core.Verizon
 
         public static ISpec<VerizonRecord> NumberIs(string number)
         {
-            return Spec.Create<VerizonRecord>(r => r.Number.Equals(number, StringComparison.InvariantCultureIgnoreCase));
+            return Spec<VerizonRecord>.Create(r => r.Number.Equals(number, StringComparison.InvariantCultureIgnoreCase));
         }
 
         public static ISpec<VerizonRecord> NumberIsNot(string number)
@@ -33,7 +33,7 @@ namespace Caliberweb.Core.Verizon
 
         public static ISpec<VerizonRecord> DescriptionIs(string description)
         {
-            return Spec.Create<VerizonRecord>(r => r.Description.Equals(description, StringComparison.InvariantCultureIgnoreCase));
+            return Spec<VerizonRecord>.Create(r => r.Description.Equals(description, StringComparison.InvariantCultureIgnoreCase));
         }
 
         public static ISpec<VerizonRecord> DescriptionIsNot(string description)
@@ -43,12 +43,12 @@ namespace Caliberweb.Core.Verizon
 
         public static ISpec<VerizonRecord> MinutesGreaterThan(int minutes)
         {
-            return Spec.Create<VerizonRecord>(r => r.Minutes > minutes);
+            return Spec<VerizonRecord>.Create(r => r.Minutes > minutes);
         }
 
         public static ISpec<VerizonRecord> AfterDate(DateTime date)
         {
-            return Spec.Create<VerizonRecord>(r => r.Date > date);
+            return Spec<VerizonRecord>.Create(r => r.Date > date);
         }
     }
 }

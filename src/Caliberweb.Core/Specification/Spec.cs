@@ -2,38 +2,6 @@ using System;
 
 namespace Caliberweb.Core.Specification
 {
-    public static class Spec
-    {
-        public static ISpec<T> Create<T>(Func<T, bool> spec)
-        {
-            return new DynamicSpec<T>(spec);
-        }
-
-        public static ISpec<T> Empty<T>()
-        {
-            return new DynamicSpec<T>(s => true);
-        }
-
-        #region Nested type: DynamicSpec
-
-        private class DynamicSpec<T> : Spec<T>
-        {
-            private readonly Func<T, bool> spec;
-
-            public DynamicSpec(Func<T, bool> spec)
-            {
-                this.spec = spec;
-            }
-
-            public override bool IsSatisfied(T source)
-            {
-                return spec(source);
-            }
-        }
-
-        #endregion
-    }
-
     public abstract class Spec<T> : ISpec<T>
     {
         #region ISpec<T> Members
@@ -50,14 +18,29 @@ namespace Caliberweb.Core.Specification
             return new OrSpec<T>(this, spec);
         }
 
-        public ISpec<T> Not(ISpec<T> spec)
+        public ISpec<T> AndNot(ISpec<T> spec)
         {
-            return new NotSpec<T>(spec);
+            return new NotSpec<T>(this, spec);
+        }
+
+        public ISpec<T> And(Func<T, bool> spec)
+        {
+            return new AndSpec<T>(this, Create(spec));
+        }
+
+        public ISpec<T> Or(Func<T, bool> spec)
+        {
+            return new OrSpec<T>(this, Create(spec));
+        }
+
+        public ISpec<T> AndNot(Func<T, bool> spec)
+        {
+            return new NotSpec<T>(this, Create(spec));
         }
 
         public ISpec<T> Negate()
         {
-            return new NotSpec<T>(this);
+            return Create(t => !IsSatisfied(t));
         }
 
         #endregion
@@ -103,18 +86,14 @@ namespace Caliberweb.Core.Specification
 
         #region Nested type: NotSpec
 
-        private class NotSpec<TSource> : Spec<TSource>
+        private class NotSpec<TSource> : Composite<TSource>
         {
-            private readonly ISpec<TSource> spec;
+            public NotSpec(ISpec<TSource> left, ISpec<TSource> right) : base(left, right)
+            {}
 
-            public NotSpec(ISpec<TSource> spec)
+            protected override bool SatisfiesComposite(ISpec<TSource> left, ISpec<TSource> right, TSource source)
             {
-                this.spec = spec;
-            }
-
-            public override bool IsSatisfied(TSource source)
-            {
-                return !spec.IsSatisfied(source);
+                return left.IsSatisfied(source) && !right.IsSatisfied(source);
             }
         }
 
@@ -131,6 +110,35 @@ namespace Caliberweb.Core.Specification
             protected override bool SatisfiesComposite(ISpec<TSource> left, ISpec<TSource> right, TSource source)
             {
                 return left.IsSatisfied(source) || right.IsSatisfied(source);
+            }
+        }
+
+        #endregion
+
+        public static ISpec<T> Create(Func<T, bool> spec)
+        {
+            return new DynamicSpec<T>(spec);
+        }
+
+        public static ISpec<T> Empty
+        {
+            get { return new DynamicSpec<T>(s => true); }
+        }
+
+        #region Nested type: DynamicSpec
+
+        private class DynamicSpec<TSource> : Spec<TSource>
+        {
+            private readonly Func<TSource, bool> spec;
+
+            public DynamicSpec(Func<TSource, bool> spec)
+            {
+                this.spec = spec;
+            }
+
+            public override bool IsSatisfied(TSource source)
+            {
+                return spec(source);
             }
         }
 

@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Caliberweb.Core.IO.Csv;
 using Caliberweb.Core.Specification;
+
+using OpenFileSystem.IO;
 
 namespace Caliberweb.Core.Verizon
 {
@@ -16,7 +17,7 @@ namespace Caliberweb.Core.Verizon
         private readonly List<CsvReader> readers;
         private readonly IColumn<DateTime> timeColumn;
 
-        public VerizonMinutesReader(IEnumerable<FileInfo> files)
+        public VerizonMinutesReader(IEnumerable<IFile> files)
         {
             minutesColumn = Columns.Integer("Minutes");
             numberColumn = Columns.String("Number");
@@ -60,7 +61,7 @@ namespace Caliberweb.Core.Verizon
 
         public IEnumerable<VerizonRecord> GetFriendsAndFamilyRecommendations()
         {
-            return GetFriendsAndFamilyRecommendations(Spec.Empty<VerizonRecord>());
+            return GetFriendsAndFamilyRecommendations(Spec<VerizonRecord>.Empty);
         }
 
         public IEnumerable<VerizonRecord> GetFriendsAndFamilyRecommendations(ISpec<VerizonRecord> spec)
@@ -75,7 +76,7 @@ namespace Caliberweb.Core.Verizon
 
         public IEnumerable<VerizonRecord> GroupByNumber()
         {
-            return GroupByNumber(Spec.Empty<VerizonRecord>());
+            return GroupByNumber(Spec<VerizonRecord>.Empty);
         }
 
         public IEnumerable<VerizonRecord> GroupByNumber(ISpec<VerizonRecord> spec)

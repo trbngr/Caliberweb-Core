@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Caliberweb.Core</RootNamespace>
     <AssemblyName>Caliberweb.Core.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -56,6 +56,10 @@
     <Reference Include="nunit.framework">
       <HintPath>..\..\lib\NUnit-2.5.9.10348\NUnit-2.5.9.10348\bin\net-2.0\framework\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="OpenFileSystem, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\openfilesystem-1.0.0.50393258\bin-net35\OpenFileSystem.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -80,6 +84,11 @@
     <Compile Include="DisposableActionTests.cs" />
     <Compile Include="Extensions\LocalFilePathFixture.cs" />
     <Compile Include="FakeHttpContext.cs" />
+    <Compile Include="IO\Csv\CsvReaderTests.cs" />
+    <Compile Include="IO\Csv\MyCustomCsvReader.cs" />
+    <Compile Include="IO\Csv\CustomCsvRecord.cs" />
+    <Compile Include="IO\Csv\StronglyTypedCsvReading.cs" />
+    <Compile Include="IO\Csv\TestMemoryFile.cs" />
     <Compile Include="IO\InMemoryFileBackupTests.cs" />
     <Compile Include="IO\VersionedFileInfoTests.cs" />
     <Compile Include="IO\RollingFileBackupTests.cs" />

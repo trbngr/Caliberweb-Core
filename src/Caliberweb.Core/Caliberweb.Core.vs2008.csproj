@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Caliberweb.Core</RootNamespace>
     <AssemblyName>Caliberweb.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <CodeContractsAssemblyMode>0</CodeContractsAssemblyMode>
     <FileUpgradeFlags>
@@ -86,6 +86,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\MiscUtil\MiscUtil.dll</HintPath>
     </Reference>
+    <Reference Include="OpenFileSystem, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\openfilesystem-1.0.0.50393258\bin-net35\OpenFileSystem.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
@@ -136,6 +140,7 @@
     <Compile Include="Extensions\DirectoryInfoExtensions.cs" />
     <Compile Include="Extensions\FileInfoExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="Extensions\OpenFileSystemFileExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="IByteCodec.cs" />
     <Compile Include="IO\Csv\Columns.cs" />
@@ -144,6 +149,7 @@
     <Compile Include="IO\Csv\CsvRecord.cs" />
     <Compile Include="IO\Csv\CsvValue.cs" />
     <Compile Include="IO\Csv\CsvValueList.cs" />
+    <Compile Include="IO\Csv\CustomCsvReader.cs" />
     <Compile Include="IO\Csv\DateValue.cs" />
     <Compile Include="IO\Csv\IColumn.cs" />
     <Compile Include="IO\Csv\ICsvRecord.cs" />
