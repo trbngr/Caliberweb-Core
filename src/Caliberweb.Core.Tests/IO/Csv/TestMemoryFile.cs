@@ -110,12 +110,12 @@ namespace Caliberweb.Core.IO.Csv
         {
             var records = new ArrayList
             {
-                "\"id\"\t\"name\""
+                "\"id\",\"name\""
             };
 
             for (int i = 0; i < lines; i++)
             {
-                records.Add(String.Format("\"{0}\"\t\"{1}\"", i, Rand.String.NextWord()));
+                records.Add(String.Format("\"{0}\",\"{1}\"", i, Rand.String.NextWord()));
             }
 
             wrapped.WriteLines((string[]) records.ToArray(typeof(string)));

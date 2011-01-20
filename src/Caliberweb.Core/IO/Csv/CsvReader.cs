@@ -43,13 +43,13 @@ namespace Caliberweb.Core.IO.Csv
             return records;
         }
 
-        private static ICsvRecord CreateRecord(string line, IEnumerable<IndexedColumn> columns)
+        private ICsvRecord CreateRecord(string line, IEnumerable<IndexedColumn> columns)
         {
-            var parts = line.Split('\t');
+            var parts = description.ReadLine(line);
 
             var values = columns.Select(column =>
             {
-                var value = parts[column.Ordinal].Replace("\"", "");
+                var value = parts[column.Ordinal];
                 return column.GetValue(value);
             });
 
@@ -58,9 +58,12 @@ namespace Caliberweb.Core.IO.Csv
 
         private IEnumerable<IndexedColumn> FindColumns(Queue<string> queue)
         {
-            var columns = queue.Dequeue().Split('\t');
+            if(queue.Count == 0)
+                return new IndexedColumn[0];
 
-            return description.FindColumns(columns).ToArray();
+            var header = queue.Dequeue();
+
+            return description.FindColumns(header).ToArray();
         }
 
         public bool Equals(CsvReader other)

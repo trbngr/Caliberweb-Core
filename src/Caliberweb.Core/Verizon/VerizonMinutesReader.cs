@@ -25,7 +25,7 @@ namespace Caliberweb.Core.Verizon
             timeColumn = Columns.Date("Time");
             descriptionColumn = Columns.String("Desc");
 
-            var description = new CsvDescription(new IColumn[]
+            var description = new CsvDescription('\t', new IColumn[]
             {
                 minutesColumn,
                 numberColumn,

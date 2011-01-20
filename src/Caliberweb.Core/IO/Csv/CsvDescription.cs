@@ -6,26 +6,33 @@ namespace Caliberweb.Core.IO.Csv
 {
     public class CsvDescription
     {
-        public IEnumerable<IColumn> Columns { get; private set; }
+        private const StringComparison COMPARISON_TYPE = StringComparison.InvariantCultureIgnoreCase;
+        private const char DEFAULT_SEPARATOR = ',';
+        public static CsvDescription Empty = new CsvDescription(new char(), new IColumn[0]);
+        private readonly char separator;
 
-        public CsvDescription(IEnumerable<IColumn> columns)
+        public CsvDescription(IEnumerable<IColumn> columns) : this(DEFAULT_SEPARATOR, columns)
+        {}
+
+        public CsvDescription(char separator, IEnumerable<IColumn> columns)
         {
+            this.separator = separator;
             Columns = columns;
         }
 
-        public static CsvDescription Empty = new CsvDescription(new IColumn[0]);
+        public IEnumerable<IColumn> Columns { get; private set; }
 
-        internal IEnumerable<IndexedColumn> FindColumns(string[] headerColumns)
+        internal IEnumerable<IndexedColumn> FindColumns(string header)
         {
-            const StringComparison COMPARISON = StringComparison.InvariantCultureIgnoreCase;
-            
-            var columns = Columns;
+            IEnumerable<IColumn> columns = Columns;
 
-            for (int i = 0; i < headerColumns.Length; i++)
+            string[] line = ReadLine(header);
+
+            for (int i = 0; i < line.Length; i++)
             {
-                var current = headerColumns[i].Replace("\"", "");
-                
-                var value = columns.FirstOrDefault(v => v.Name.Equals(current, COMPARISON));
+                string current = line[i];
+
+                IColumn value = columns.FirstOrDefault(v => v.Name.Equals(current, COMPARISON_TYPE));
                 if (value != null)
                 {
                     var indexedColumn = new IndexedColumn(value)
@@ -38,6 +45,11 @@ namespace Caliberweb.Core.IO.Csv
             }
         }
 
-        
+        internal string[] ReadLine(string line)
+        {
+            return line.Split(new[] {separator}, StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => s.Replace("\"", ""))
+                .ToArray();
+        }
     }
 }

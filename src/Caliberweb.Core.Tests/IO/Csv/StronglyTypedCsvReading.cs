@@ -43,11 +43,11 @@ namespace Caliberweb.Core.IO.Csv
 
         private static IEnumerable<string> CreateFileContents(int recordCount)
         {
-            yield return "\"date\"\t\"number\"\t\"words\"";
+            yield return "\"date\",\"number\",\"words\"";
 
             for (int i = 0; i < recordCount; i++)
             {
-                yield return String.Format("\"{0}\"\t\"{1}\"\t\"{2}\"", Rand.NextDate(), Rand.Next(),
+                yield return String.Format("\"{0}\",\"{1}\",\"{2}\"", Rand.NextDate(), Rand.Next(),
                                            Rand.String.NextSentence(5, 25));
             }
         }
