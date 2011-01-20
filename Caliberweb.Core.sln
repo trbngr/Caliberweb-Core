@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Caliberweb.Core", "src\Caliberweb.Core\Caliberweb.Core.csproj", "{4260E529-3681-4C17-99CF-D807D6132234}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Caliberweb.Core.Tests", "src\Caliberweb.Core.Tests\Caliberweb.Core.Tests.csproj", "{7395CBC0-631F-4BE7-AAAC-506E2CEC0197}"

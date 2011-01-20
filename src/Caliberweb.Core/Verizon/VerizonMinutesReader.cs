@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-
 using Caliberweb.Core.IO.Csv;
 using Caliberweb.Core.Specification;
 
@@ -11,11 +10,11 @@ namespace Caliberweb.Core.Verizon
     public class VerizonMinutesReader
     {
         private readonly IColumn<DateTime> dateColumn;
-        private readonly IColumn<DateTime> timeColumn;
         private readonly IColumn<string> descriptionColumn;
         private readonly IColumn<int> minutesColumn;
         private readonly IColumn<string> numberColumn;
         private readonly List<CsvReader> readers;
+        private readonly IColumn<DateTime> timeColumn;
 
         public VerizonMinutesReader(IEnumerable<FileInfo> files)
         {
@@ -34,24 +33,19 @@ namespace Caliberweb.Core.Verizon
                 descriptionColumn
             });
 
-            readers = new List<CsvReader>();
-
-            foreach (var file in files)
-            {
-                readers.Add(new CsvReader(file, description));
-            }
+            readers = new List<CsvReader>(files.Select(f => new CsvReader(f, description)));
         }
 
         public IEnumerable<VerizonRecord> Records
         {
             get
             {
-                var allRecords = readers.SelectMany(r => r.GetRecords());
+                IEnumerable<ICsvRecord> allRecords = readers.SelectMany(r => r.GetRecords());
 
                 return allRecords.Select(r =>
                 {
-                    var date = r.Values.GetValue(dateColumn);
-                    var time = r.Values.GetValue(timeColumn).TimeOfDay;
+                    DateTime date = r.Values.GetValue(dateColumn);
+                    TimeSpan time = r.Values.GetValue(timeColumn).TimeOfDay;
 
                     return new VerizonRecord
                     {
@@ -73,22 +67,10 @@ namespace Caliberweb.Core.Verizon
         {
             return Records
                 .GroupBy(r => r.Number)
-                .Select(g => CreateRecordFromGrouping(g))
+                .Select(CreateRecordFromGrouping)
                 .Where(spec.IsSatisfied)
                 .OrderByDescending(r => r.Minutes)
                 .Take(10);
-
-        }
-
-        private static VerizonRecord CreateRecordFromGrouping(IGrouping<string, VerizonRecord> g)
-        {
-            return new VerizonRecord
-            {
-                Date = g.OrderBy(r => r.Date).Last().Date,
-                Description = g.First().Description,
-                Minutes = g.Sum(r => r.Minutes),
-                Number = g.Key
-            };
         }
 
         public IEnumerable<VerizonRecord> GroupByNumber()
@@ -101,8 +83,19 @@ namespace Caliberweb.Core.Verizon
             return Records
                 .Where(spec.IsSatisfied)
                 .GroupBy(r => r.Number)
-                .Select(g => CreateRecordFromGrouping(g))
+                .Select(CreateRecordFromGrouping)
                 .OrderByDescending(r => r.Minutes);
+        }
+
+        private static VerizonRecord CreateRecordFromGrouping(IGrouping<string, VerizonRecord> g)
+        {
+            return new VerizonRecord
+            {
+                Date = g.OrderBy(r => r.Date).Last().Date,
+                Description = g.First().Description,
+                Minutes = g.Sum(r => r.Minutes),
+                Number = g.Key
+            };
         }
     }
 }
