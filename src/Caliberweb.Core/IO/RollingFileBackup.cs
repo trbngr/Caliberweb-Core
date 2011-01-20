@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 
@@ -13,9 +12,6 @@ namespace Caliberweb.Core.IO
 
         public RollingFileBackup(FileInfo file, int maxBackups)
         {
-            Contract.Requires(file != null, "file can not be null.");
-            Contract.Requires(maxBackups > 0, "maxBackups must be set to at least 1.");
-
             if (!file.Exists)
             {
                 throw new FileNotFoundException("File not found.", file.FullName);

@@ -1,4 +1,3 @@
-using System.Diagnostics.Contracts;
 using System.IO;
 
 namespace Caliberweb.Core.IO
@@ -7,8 +6,6 @@ namespace Caliberweb.Core.IO
     {
         protected FileBackupInfoBase(FileInfo original)
         {
-            Contract.Requires(original != null);
-
             CurrentFile = original;
         }
 
