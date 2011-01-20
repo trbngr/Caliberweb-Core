@@ -67,7 +67,7 @@ namespace Caliberweb.Core.Verizon
         {
             return Records
                 .GroupBy(r => r.Number)
-                .Select(CreateRecordFromGrouping)
+                .Select(g => CreateRecordFromGrouping(g))
                 .Where(spec.IsSatisfied)
                 .OrderByDescending(r => r.Minutes)
                 .Take(10);
@@ -83,7 +83,7 @@ namespace Caliberweb.Core.Verizon
             return Records
                 .Where(spec.IsSatisfied)
                 .GroupBy(r => r.Number)
-                .Select(CreateRecordFromGrouping)
+                .Select(g => CreateRecordFromGrouping(g))
                 .OrderByDescending(r => r.Minutes);
         }
 

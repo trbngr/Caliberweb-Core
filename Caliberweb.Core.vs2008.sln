@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Caliberweb.Core.vs2008", "src\Caliberweb.Core\Caliberweb.Core.vs2008.csproj", "{4260E529-3681-4C17-99CF-D807D6132234}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Caliberweb.Core.Tests.vs2008", "src\Caliberweb.Core.Tests\Caliberweb.Core.Tests.vs2008.csproj", "{7395CBC0-631F-4BE7-AAAC-506E2CEC0197}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleDriver.vs2008", "src\ConsoleDriver\ConsoleDriver.vs2008.csproj", "{C1EB8702-2B35-438A-8B0B-8928AD036E69}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Caliberweb.Core.Api.vs2008", "src\Caliberweb.Core.Api\Caliberweb.Core.Api.vs2008.csproj", "{742243E4-2C55-4EE7-97AE-CC749FD32B98}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4260E529-3681-4C17-99CF-D807D6132234}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4260E529-3681-4C17-99CF-D807D6132234}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4260E529-3681-4C17-99CF-D807D6132234}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4260E529-3681-4C17-99CF-D807D6132234}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7395CBC0-631F-4BE7-AAAC-506E2CEC0197}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7395CBC0-631F-4BE7-AAAC-506E2CEC0197}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7395CBC0-631F-4BE7-AAAC-506E2CEC0197}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7395CBC0-631F-4BE7-AAAC-506E2CEC0197}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1EB8702-2B35-438A-8B0B-8928AD036E69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1EB8702-2B35-438A-8B0B-8928AD036E69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1EB8702-2B35-438A-8B0B-8928AD036E69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1EB8702-2B35-438A-8B0B-8928AD036E69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{742243E4-2C55-4EE7-97AE-CC749FD32B98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{742243E4-2C55-4EE7-97AE-CC749FD32B98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{742243E4-2C55-4EE7-97AE-CC749FD32B98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{742243E4-2C55-4EE7-97AE-CC749FD32B98}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
