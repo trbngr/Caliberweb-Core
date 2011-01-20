@@ -1,22 +1,35 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
+using Caliberweb.Core.Extensions;
 using Caliberweb.Core.Specification;
 
 using NUnit.Framework;
 
 using OpenFileSystem.IO.FileSystems.InMemory;
 
-using System.Linq;
-
-using Caliberweb.Core.Extensions;
-
 namespace Caliberweb.Core.IO.Csv
 {
-    [TestFixture(new object[] { "file1.csv", 15 })]
-    [TestFixture(new object[] { "file2.csv", 250 })]
+    [TestFixture("file1.csv", 15)]
+    [TestFixture("file2.csv", 250)]
     public class StronglyTypedCsvReading
     {
+        #region Setup/Teardown
+
+        [TestFixtureSetUp]
+        public virtual void SetUp()
+        {
+            var file = new InMemoryFile(filename);
+            //            var file = LocalFileSystem.Instance.GetFile("../path/to/file.csv")
+            reader = new MyCustomCsvReader(file);
+
+            //not a real file on disk so, I must populate it with content.
+            file.WriteLines(CreateFileContents(recordCount).ToArray());
+        }
+
+        #endregion
+
         private readonly string filename;
         private readonly int recordCount;
         private MyCustomCsvReader reader;
@@ -27,24 +40,14 @@ namespace Caliberweb.Core.IO.Csv
             this.recordCount = recordCount;
         }
 
-        [TestFixtureSetUp]
-        public virtual void SetUp()
+        private static IEnumerable<string> CreateFileContents(int recordCount)
         {
-            var file = new InMemoryFile(filename);
+            yield return "\"date\"\t\"number\"\t\"words\"";
 
-            reader = new MyCustomCsvReader(file);
-
-            var lines = CreateFileContents(recordCount).ToArray();
-
-            file.WriteLines(lines);
-        }
-
-        [Test]
-        public void ThisIsHowToReadAllRecords()
-        {
-            foreach (var record in reader.Records)
+            for (int i = 0; i < recordCount; i++)
             {
-                Console.Out.WriteLine("{0:MM/dd/yyyy}: {1}", record.Date, record.Words);
+                yield return String.Format("\"{0}\"\t\"{1}\"\t\"{2}\"", Rand.NextDate(), Rand.Next(),
+                                           Rand.String.NextSentence(5, 25));
             }
         }
 
@@ -53,7 +56,7 @@ namespace Caliberweb.Core.IO.Csv
         {
             var d = new DateTime(1950, 6, 1);
 
-            var spec = Spec<CustomCsvRecord>
+            ISpec<CustomCsvRecord> spec = Spec<CustomCsvRecord>
                 .Create(r => r.Date > d)
                 .And(r => r.Words.Length > 50)
                 .AndNot(r => r.Words.Length > 100);
@@ -66,22 +69,20 @@ namespace Caliberweb.Core.IO.Csv
             Console.Out.WriteLine("orderd by date");
             Console.Out.WriteLine("");
 
-            var records = reader.Query(spec).OrderBy(r => r.Date);
+            IOrderedEnumerable<CustomCsvRecord> records = reader.Query(spec).OrderBy(r => r.Date);
 
-            foreach (var record in records)
+            foreach (CustomCsvRecord record in records)
             {
                 Console.Out.WriteLine("{0:MM/dd/yyyy}: [{2}] {1}", record.Date, record.Words, record.Words.Length);
             }
         }
 
-        private static IEnumerable<string> CreateFileContents(int recordCount)
+        [Test]
+        public void ThisIsHowToReadAllRecords()
         {
-            yield return "\"date\"\t\"number\"\t\"words\"";
-
-            for (int i = 0; i < recordCount; i++)
+            foreach (CustomCsvRecord record in reader.Records)
             {
-                yield return String.Format("\"{0}\"\t\"{1}\"\t\"{2}\"", Rand.NextDate(), Rand.Next(),
-                                           Rand.String.NextSentence(5, 25));
+                Console.Out.WriteLine("{0:MM/dd/yyyy}: {1}", record.Date, record.Words);
             }
         }
     }
