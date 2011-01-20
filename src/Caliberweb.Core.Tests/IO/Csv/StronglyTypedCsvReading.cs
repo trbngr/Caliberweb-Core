@@ -20,12 +20,13 @@ namespace Caliberweb.Core.IO.Csv
         [TestFixtureSetUp]
         public virtual void SetUp()
         {
+            //not a real file on disk so, I must populate it with content.
             var file = new InMemoryFile(filename);
+            file.WriteLines(CreateFileContents(recordCount).ToArray());
+
             //            var file = LocalFileSystem.Instance.GetFile("../path/to/file.csv")
             reader = new MyCustomCsvReader(file);
 
-            //not a real file on disk so, I must populate it with content.
-            file.WriteLines(CreateFileContents(recordCount).ToArray());
         }
 
         #endregion
