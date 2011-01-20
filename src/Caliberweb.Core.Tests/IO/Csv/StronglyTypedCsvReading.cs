@@ -20,7 +20,7 @@ namespace Caliberweb.Core.IO.Csv
         [TestFixtureSetUp]
         public virtual void SetUp()
         {
-            //not a real file on disk so, I must populate it with content.
+            //not a real file on disk, so I must populate it with content.
             var file = new InMemoryFile(filename);
             file.WriteLines(CreateFileContents(recordCount).ToArray());
 
