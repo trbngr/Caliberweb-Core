@@ -33,7 +33,7 @@ namespace Caliberweb.Core.Verizon
                 descriptionColumn
             });
 
-            readers = new List<CsvReader>(files.Select(f => new CsvReader(f, description)));
+            readers = files.Select(f => new CsvReader(f, description)).ToList();
         }
 
         public IEnumerable<VerizonRecord> Records
