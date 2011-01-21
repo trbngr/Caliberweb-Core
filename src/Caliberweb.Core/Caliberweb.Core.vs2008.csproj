@@ -140,7 +140,7 @@
     <Compile Include="Extensions\DirectoryInfoExtensions.cs" />
     <Compile Include="Extensions\FileInfoExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
-    <Compile Include="Extensions\OpenFileSystemFileExtensions.cs" />
+    <Compile Include="Extensions\OpenFileSystemExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="IByteCodec.cs" />
     <Compile Include="IO\Csv\Columns.cs" />
