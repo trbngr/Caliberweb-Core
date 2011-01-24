@@ -54,7 +54,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework">
-      <HintPath>..\..\lib\NUnit-2.5.9.10348\NUnit-2.5.9.10348\bin\net-2.0\framework\nunit.framework.dll</HintPath>
+      <HintPath>..\..\lib\NUnit-2.5.9.10348\bin\net-2.0\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenFileSystem">
+      <HintPath>..\..\lib\openfilesystem-1.0.0.50393258\bin-net35\OpenFileSystem.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -80,6 +83,11 @@
     <Compile Include="DisposableActionTests.cs" />
     <Compile Include="Extensions\LocalFilePathFixture.cs" />
     <Compile Include="FakeHttpContext.cs" />
+    <Compile Include="IO\Csv\CsvReaderTests.cs" />
+    <Compile Include="IO\Csv\CustomCsvRecord.cs" />
+    <Compile Include="IO\Csv\MyCustomCsvReader.cs" />
+    <Compile Include="IO\Csv\StronglyTypedCsvReading.cs" />
+    <Compile Include="IO\Csv\TestMemoryFile.cs" />
     <Compile Include="IO\InMemoryFileBackupTests.cs" />
     <Compile Include="IO\VersionedFileInfoTests.cs" />
     <Compile Include="IO\RollingFileBackupTests.cs" />
@@ -90,6 +98,7 @@
     <Compile Include="Loop.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialization\JsonDataSerializerTests.cs" />
+    <Compile Include="Specification\SpecificationTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Caliberweb.Core\Caliberweb.Core.csproj">
